@@ -13,7 +13,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
-export default function TaskForm() {
+interface TaskFormProps {
+  onSuccess?: () => void;
+}
+
+export default function TaskForm({ onSuccess }: TaskFormProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -43,6 +47,7 @@ export default function TaskForm() {
         title: "Task created",
         description: "Your task has been created successfully.",
       });
+      onSuccess?.();
     },
     onError: (error) => {
       toast({

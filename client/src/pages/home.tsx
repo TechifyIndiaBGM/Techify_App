@@ -3,18 +3,24 @@ import TaskForm from "@/components/task-form";
 import TaskList from "@/components/task-list";
 import PriorityFilter from "@/components/priority-filter";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Plus } from "lucide-react";
 
 export default function Home() {
   const [priorityFilter, setPriorityFilter] = useState<number | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="max-w-4xl mx-auto space-y-6">
         <h1 className="text-4xl font-bold text-foreground">Tasks</h1>
-        
-        <Card className="p-6">
-          <TaskForm />
-        </Card>
 
         <div className="space-y-4">
           <PriorityFilter
@@ -23,6 +29,21 @@ export default function Home() {
           />
           <TaskList priorityFilter={priorityFilter} />
         </div>
+
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogTrigger asChild>
+            <Button className="fixed bottom-6 right-6 shadow-lg" size="lg">
+              <Plus className="h-5 w-5 mr-2" />
+              Create Task
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Create New Task</DialogTitle>
+            </DialogHeader>
+            <TaskForm onSuccess={() => setIsDialogOpen(false)} />
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
