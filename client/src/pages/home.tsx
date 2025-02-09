@@ -23,10 +23,14 @@ export default function Home() {
   return (
     <div className="p-4 md:p-8">
       <div className="max-w-4xl mx-auto space-y-6">
-        <div className="space-y-8">
+        <section>
+          <h2 className="text-xl font-bold mb-4">Salah Tracker</h2>
           <div className="space-y-4">
             <SalahTracker />
           </div>
+        </section>
+        <section>
+          <h2 className="text-xl font-bold mb-4">To Do List</h2>
           <div className="space-y-4">
             <input
               type="text"
@@ -47,7 +51,7 @@ export default function Home() {
             completionFilter={completionFilter}
             searchQuery={searchQuery}
           />
-        </div>
+        </section>
 
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
