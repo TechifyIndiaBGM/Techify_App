@@ -28,7 +28,8 @@ export default function SalahTracker() {
               className="transition-all duration-200 hover:scale-105 data-[state=active]:scale-110"
               style={{
                 backgroundColor: prayerStatus[prayer] || "transparent",
-                color: prayerStatus[prayer] === "yellow" ? "black" : "inherit"
+                color: prayerStatus[prayer] === "yellow" ? "black" : "white",
+                fontWeight: "500"
               }}
             >
               {prayer}
@@ -59,7 +60,8 @@ export default function SalahTracker() {
                 className="w-full"
                 style={{ 
                   backgroundColor: color,
-                  color: color === "yellow" ? "black" : "white" 
+                  color: color === "yellow" ? "black" : "white",
+                  fontWeight: "500"
                 }}
                 onClick={() => {
                   setPrayerStatus((prev) => ({
