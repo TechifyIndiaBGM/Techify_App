@@ -25,7 +25,7 @@ export default function Home() {
 
   return (
     <div className="p-4 md:p-8">
-      <div className="max-w-4xl mx-auto space-y-6">
+      <div className="max-w-4xl mx-auto space-y-12">
         <section>
           <div className="space-y-4">
             <SalahTracker />
@@ -34,7 +34,7 @@ export default function Home() {
         <section>
           <div className="flex flex-col sm:flex-row sm:justify-between gap-2 items-start sm:items-center mb-4">
             <h2 className="text-xl font-bold">To Do List</h2>
-            <Button className="w-full sm:w-auto" onClick={() => setShowNewTask(true)}>Create Task</Button>
+            <Button className="w-full sm:w-auto" onClick={() => setIsDialogOpen(true)}>Create Task</Button>
           </div>
             <PriorityFilter
               selected={priorityFilter}
