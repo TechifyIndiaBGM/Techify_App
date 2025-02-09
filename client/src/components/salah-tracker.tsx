@@ -1,12 +1,8 @@
 
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 const prayers = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
 const statuses = [
@@ -23,22 +19,33 @@ export default function SalahTracker() {
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-semibold">Salah Tracker</h2>
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <Tabs defaultValue="Fajr" className="w-full">
+        <TabsList className="grid grid-cols-5 w-full">
+          {prayers.map((prayer) => (
+            <TabsTrigger
+              key={prayer}
+              value={prayer}
+              className="transition-all duration-200 hover:scale-105 data-[state=active]:scale-110"
+              style={{
+                backgroundColor: prayerStatus[prayer] || "transparent",
+                color: prayerStatus[prayer] === "yellow" ? "black" : "inherit"
+              }}
+            >
+              {prayer}
+            </TabsTrigger>
+          ))}
+        </TabsList>
         {prayers.map((prayer) => (
-          <Button
-            key={prayer}
-            variant="outline"
-            className="w-full"
-            style={{
-              backgroundColor: prayerStatus[prayer] || "transparent",
-              color: prayerStatus[prayer] === "yellow" ? "black" : "white",
-            }}
-            onClick={() => setSelectedPrayer(prayer)}
-          >
-            {prayer}
-          </Button>
+          <TabsContent key={prayer} value={prayer} className="mt-4">
+            <Button
+              className="w-full"
+              onClick={() => setSelectedPrayer(prayer)}
+            >
+              Set {prayer} Status
+            </Button>
+          </TabsContent>
         ))}
-      </div>
+      </Tabs>
 
       <Dialog open={!!selectedPrayer} onOpenChange={() => setSelectedPrayer("")}>
         <DialogContent>
@@ -50,7 +57,10 @@ export default function SalahTracker() {
               <Button
                 key={label}
                 className="w-full"
-                style={{ backgroundColor: color }}
+                style={{ 
+                  backgroundColor: color,
+                  color: color === "yellow" ? "black" : "white" 
+                }}
                 onClick={() => {
                   setPrayerStatus((prev) => ({
                     ...prev,
