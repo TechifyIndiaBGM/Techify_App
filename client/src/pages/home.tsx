@@ -18,10 +18,8 @@ export default function Home() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
+    <div className="p-4 md:p-8">
       <div className="max-w-4xl mx-auto space-y-6">
-        <h1 className="text-4xl font-bold text-foreground">Tasks</h1>
-
         <div className="space-y-4">
           <PriorityFilter
             selected={priorityFilter}
