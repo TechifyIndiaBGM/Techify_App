@@ -18,9 +18,38 @@ export default function SalahTracker() {
   const [prayerStatus, setPrayerStatus] = useState<Record<string, string>>({});
   const [showStats, setShowStats] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const [statsPeriod, setStatsPeriod] = useState<'week' | 'month' | 'year' | 'all'>('week');
   
   const calculateStats = () => {
-    const totalPrayers = Object.values(prayerStatus).length;
+    const now = new Date();
+    const periodStart = new Date();
+    
+    switch(statsPeriod) {
+      case 'week':
+        periodStart.setDate(now.getDate() - 7);
+        break;
+      case 'month':
+        periodStart.setMonth(now.getMonth() - 1);
+        break;
+      case 'year':
+        periodStart.setFullYear(now.getFullYear() - 1);
+        break;
+      case 'all':
+        // Don't filter by date
+        break;
+    }
+    
+    const filteredPrayers = statsPeriod === 'all' 
+      ? prayerStatus 
+      : Object.entries(prayerStatus).reduce((acc, [date, status]) => {
+          const prayerDate = new Date(date);
+          if (prayerDate >= periodStart && prayerDate <= now) {
+            acc[date] = status;
+          }
+          return acc;
+        }, {} as Record<string, string>);
+    
+    const totalPrayers = Object.values(filteredPrayers).length;
     const stats = {
       inJamaah: 0,
       onTime: 0,
@@ -137,6 +166,32 @@ export default function SalahTracker() {
             <DialogTitle>Prayer Statistics</DialogTitle>
           </DialogHeader>
           <div className="space-y-6">
+            <div className="flex justify-center gap-2">
+              <Button 
+                variant={statsPeriod === 'week' ? 'default' : 'outline'}
+                onClick={() => setStatsPeriod('week')}
+              >
+                Week
+              </Button>
+              <Button 
+                variant={statsPeriod === 'month' ? 'default' : 'outline'}
+                onClick={() => setStatsPeriod('month')}
+              >
+                Month
+              </Button>
+              <Button 
+                variant={statsPeriod === 'year' ? 'default' : 'outline'}
+                onClick={() => setStatsPeriod('year')}
+              >
+                Year
+              </Button>
+              <Button 
+                variant={statsPeriod === 'all' ? 'default' : 'outline'}
+                onClick={() => setStatsPeriod('all')}
+              >
+                All Time
+              </Button>
+            </div>
             <div className="grid grid-cols-2 gap-4">
               {Object.entries(calculateStats()).map(([key, value]) => {
                 if (!key.includes('Count')) return null;
