@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Calendar } from "@/components/ui/calendar";
 
 const prayers = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
 const statuses = [
@@ -15,22 +16,56 @@ const statuses = [
 export default function SalahTracker() {
   const [selectedPrayer, setSelectedPrayer] = useState("");
   const [prayerStatus, setPrayerStatus] = useState<Record<string, string>>({});
+  const [showStats, setShowStats] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  
+  const calculateStats = () => {
+    const totalPrayers = Object.values(prayerStatus).length;
+    const stats = {
+      inJamaah: 0,
+      onTime: 0,
+      late: 0,
+      notPrayed: 0
+    };
+    
+    Object.values(prayerStatus).forEach(status => {
+      if (status === "green") stats.inJamaah++;
+      if (status === "yellow") stats.onTime++;
+      if (status === "red") stats.late++;
+      if (status === "black") stats.notPrayed++;
+    });
+    
+    return {
+      inJamaah: totalPrayers ? Math.round((stats.inJamaah / totalPrayers) * 100) : 0,
+      onTime: totalPrayers ? Math.round((stats.onTime / totalPrayers) * 100) : 0,
+      late: totalPrayers ? Math.round((stats.late / totalPrayers) * 100) : 0,
+      notPrayed: totalPrayers ? Math.round((stats.notPrayed / totalPrayers) * 100) : 0,
+      inJamaahCount: stats.inJamaah,
+      onTimeCount: stats.onTime,
+      lateCount: stats.late,
+      notPrayedCount: stats.notPrayed
+    };
+  };
 
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold">Salah Tracker</h2>
-        <div className="flex gap-3 text-sm">
-          {statuses.map(({label, color}) => (
-            <div key={label} className="flex items-center gap-2">
-              <div className="w-3 h-3" style={{ backgroundColor: color }}></div>
-              <span>{label}</span>
-            </div>
-          ))}
+        <div className="flex items-center gap-4">
+          <div className="flex gap-3 text-sm">
+            {statuses.map(({label, color}) => (
+              <div key={label} className="flex items-center gap-2">
+                <div className="w-3 h-3" style={{ backgroundColor: color }}></div>
+                <span>{label}</span>
+              </div>
+            ))}
+          </div>
+          <Button onClick={() => setShowStats(true)}>Stats/Report</Button>
         </div>
       </div>
+      
       <Tabs defaultValue="Fajr" className="w-full">
-        <TabsList className="grid grid-cols-5 w-full">
+        <TabsList className="flex justify-between w-full gap-2">
           {prayers.map((prayer) => (
             <TabsTrigger
               key={prayer}
@@ -65,6 +100,12 @@ export default function SalahTracker() {
           <DialogHeader>
             <DialogTitle>{selectedPrayer} Status</DialogTitle>
           </DialogHeader>
+          <Calendar
+            mode="single"
+            selected={selectedDate}
+            onSelect={setSelectedDate}
+            className="mb-4"
+          />
           <div className="grid grid-cols-2 gap-4">
             {statuses.map(({ label, color }) => (
               <Button
@@ -86,6 +127,32 @@ export default function SalahTracker() {
                 {label}
               </Button>
             ))}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showStats} onOpenChange={setShowStats}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Prayer Statistics</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-6">
+            <div className="grid grid-cols-2 gap-4">
+              {Object.entries(calculateStats()).map(([key, value]) => {
+                if (!key.includes('Count')) return null;
+                const label = key.replace('Count', '').split(/(?=[A-Z])/).join(' ');
+                const percentage = calculateStats()[key.replace('Count', '') as keyof ReturnType<typeof calculateStats>];
+                return (
+                  <div key={key} className="p-4 border rounded-lg">
+                    <h3 className="font-semibold">{label}</h3>
+                    <div className="mt-2">
+                      <div className="text-2xl font-bold">{percentage}%</div>
+                      <div className="text-sm text-gray-500">{value} times</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </DialogContent>
       </Dialog>
