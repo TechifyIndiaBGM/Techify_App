@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -10,32 +10,51 @@ import { Button } from "@/components/ui/button";
 
 const prayers = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
 const statuses = [
-  { label: "Not Prayed", color: "black" },
-  { label: "Late", color: "red" },
-  { label: "On Time", color: "yellow" },
-  { label: "In Jamaah", color: "green" },
+  { label: "Not Prayed", color: "black", textColor: "white" },
+  { label: "Late", color: "red", textColor: "white" },
+  { label: "On Time", color: "yellow", textColor: "black" },
+  { label: "In Jamaah", color: "green", textColor: "white" },
 ];
 
 export default function SalahTracker() {
   const [selectedPrayer, setSelectedPrayer] = useState("");
-  const [prayerStatus, setPrayerStatus] = useState<Record<string, string>>({});
+  const [prayerStatus, setPrayerStatus] = useState<Record<string, {color: string, date: string}>>({});
+  
+  // Reset prayers at midnight
+  useEffect(() => {
+    const today = new Date().toDateString();
+    const checkDate = () => {
+      const currentDate = new Date().toDateString();
+      if (currentDate !== today) {
+        setPrayerStatus({});
+      }
+    };
+    
+    const interval = setInterval(checkDate, 60000); // Check every minute
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold">Salah Tracker</h2>
+      <h2 className="text-xl font-semibold">Salah Tracker - {new Date().toLocaleDateString()}</h2>
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         {prayers.map((prayer) => (
           <Button
             key={prayer}
             variant="outline"
-            className="w-full"
+            className="w-full h-20 flex flex-col items-center justify-center gap-1"
             style={{
-              backgroundColor: prayerStatus[prayer] || "transparent",
-              color: prayerStatus[prayer] ? "white" : "inherit",
+              backgroundColor: prayerStatus[prayer]?.color || "transparent",
+              color: prayerStatus[prayer]?.color === "yellow" ? "black" : "white",
             }}
             onClick={() => setSelectedPrayer(prayer)}
           >
-            {prayer}
+            <span>{prayer}</span>
+            {prayerStatus[prayer] && (
+              <span className="text-xs">
+                {statuses.find(s => s.color === prayerStatus[prayer].color)?.label}
+              </span>
+            )}
           </Button>
         ))}
       </div>
@@ -46,15 +65,18 @@ export default function SalahTracker() {
             <DialogTitle>{selectedPrayer} Status</DialogTitle>
           </DialogHeader>
           <div className="grid grid-cols-2 gap-4">
-            {statuses.map(({ label, color }) => (
+            {statuses.map(({ label, color, textColor }) => (
               <Button
                 key={label}
-                className="w-full"
-                style={{ backgroundColor: color }}
+                className="w-full h-14"
+                style={{ backgroundColor: color, color: textColor }}
                 onClick={() => {
                   setPrayerStatus((prev) => ({
                     ...prev,
-                    [selectedPrayer]: color,
+                    [selectedPrayer]: {
+                      color,
+                      date: new Date().toDateString()
+                    }
                   }));
                   setSelectedPrayer("");
                 }}
