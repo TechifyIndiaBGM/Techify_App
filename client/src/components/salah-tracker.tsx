@@ -10,10 +10,10 @@ import { Button } from "@/components/ui/button";
 
 const prayers = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
 const statuses = [
-  { label: "Not Prayed", color: "black", textColor: "white" },
-  { label: "Late", color: "red", textColor: "white" },
-  { label: "On Time", color: "yellow", textColor: "black" },
-  { label: "In Jamaah", color: "green", textColor: "white" },
+  { label: "Not Prayed", color: "black" },
+  { label: "Late", color: "red" },
+  { label: "On Time", color: "yellow" },
+  { label: "In Jamaah", color: "green" },
 ];
 
 export default function SalahTracker() {
@@ -44,8 +44,8 @@ export default function SalahTracker() {
             variant="outline"
             className="w-full h-20 flex flex-col items-center justify-center gap-1"
             style={{
-              backgroundColor: prayerStatus[prayer]?.color || "transparent",
-              color: prayerStatus[prayer]?.color === "yellow" ? "black" : "white",
+              backgroundColor: prayerStatus[prayer] || "transparent",
+              color: prayerStatus[prayer] === "yellow" ? "black" : "white",
             }}
             onClick={() => setSelectedPrayer(prayer)}
           >
