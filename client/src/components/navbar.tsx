@@ -9,7 +9,7 @@ export default function Navbar() {
   return (
     <nav className="border-b px-4 py-3">
       <div className="max-w-4xl mx-auto flex justify-between items-center">
-        <h1 className="text-xl font-semibold">Techify_India_App</h1>
+        <h1 className="text-xl font-semibold">Ramadhan Tracker</h1>
         <Button
           variant="ghost"
           size="icon"

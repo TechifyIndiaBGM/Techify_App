@@ -33,7 +33,7 @@ export default function Home() {
         </section>
         <section>
           <div className="flex flex-col sm:flex-row sm:justify-between gap-2 items-start sm:items-center mb-4">
-            <h2 className="text-xl font-bold">To Do List</h2>
+            <h2 className="text-2xl font-bold border-b-2 pb-2">To Do List</h2>
             <Button size="sm" className="w-full sm:w-auto" onClick={() => setIsDialogOpen(true)}>Create Task</Button>
           </div>
             <PriorityFilter

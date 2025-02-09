@@ -81,7 +81,7 @@ export default function SalahTracker() {
       <div className="space-y-4">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-            <h2 className="text-xl font-semibold">Salah Tracker</h2>
+            <h2 className="text-2xl font-bold border-b-2 pb-2">Salah Tracker</h2>
             <Button size="sm" onClick={() => setShowStats(true)}>Stats/Report</Button>
           </div>
           <div className="flex flex-wrap gap-3 text-sm">
