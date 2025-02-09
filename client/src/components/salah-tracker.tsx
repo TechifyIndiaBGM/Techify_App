@@ -41,7 +41,7 @@ export default function SalahTracker() {
               className="w-full"
               onClick={() => setSelectedPrayer(prayer)}
             >
-              Set {prayer} Status
+              How did you complete {prayer} today?
             </Button>
           </TabsContent>
         ))}
