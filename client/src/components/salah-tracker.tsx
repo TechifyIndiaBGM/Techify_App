@@ -38,8 +38,9 @@ export default function SalahTracker() {
               className="transition-all duration-200 hover:scale-105 data-[state=active]:scale-110"
               style={{
                 backgroundColor: prayerStatus[prayer] || "transparent",
-                color: prayerStatus[prayer] === "yellow" ? "black" : "white",
-                fontWeight: "500"
+                color: prayerStatus[prayer] === "yellow" ? "black" : "inherit",
+                fontWeight: "600",
+                fontSize: "1rem"
               }}
             >
               {prayer}
