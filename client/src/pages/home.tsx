@@ -16,21 +16,32 @@ import { Plus } from "lucide-react";
 export default function Home() {
   const [priorityFilter, setPriorityFilter] = useState<number | null>(null);
   const [completionFilter, setCompletionFilter] = useState<'all' | 'active' | 'completed'>('all');
+  const [searchQuery, setSearchQuery] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   return (
     <div className="p-4 md:p-8">
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="space-y-4">
-          <PriorityFilter
-            selected={priorityFilter}
-            onChange={setPriorityFilter}
-            completionFilter={completionFilter}
-            onCompletionChange={setCompletionFilter}
-          />
+          <div className="space-y-4">
+            <input
+              type="text"
+              placeholder="Search tasks..."
+              className="w-full p-2 rounded border"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <PriorityFilter
+              selected={priorityFilter}
+              onChange={setPriorityFilter}
+              completionFilter={completionFilter}
+              onCompletionChange={setCompletionFilter}
+            />
+          </div>
           <TaskList 
             priorityFilter={priorityFilter}
             completionFilter={completionFilter}
+            searchQuery={searchQuery}
           />
         </div>
 
