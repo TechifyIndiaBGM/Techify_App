@@ -16,7 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 export default function TaskForm() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  
+
   const form = useForm<InsertTask>({
     resolver: zodResolver(insertTaskSchema),
     defaultValues: {
@@ -28,7 +28,12 @@ export default function TaskForm() {
 
   const createTask = useMutation({
     mutationFn: async (data: InsertTask) => {
-      const res = await apiRequest("POST", "/api/tasks", data);
+      // Ensure date is in the correct format before sending
+      const formattedData = {
+        ...data,
+        dueDate: data.dueDate ? format(data.dueDate, 'yyyy-MM-dd') : null,
+      };
+      const res = await apiRequest("POST", "/api/tasks", formattedData);
       return res.json();
     },
     onSuccess: () => {
@@ -39,10 +44,10 @@ export default function TaskForm() {
         description: "Your task has been created successfully.",
       });
     },
-    onError: () => {
+    onError: (error) => {
       toast({
         title: "Error",
-        description: "Failed to create task. Please try again.",
+        description: error instanceof Error ? error.message : "Failed to create task. Please try again.",
         variant: "destructive",
       });
     },
@@ -118,7 +123,7 @@ export default function TaskForm() {
                     <Calendar
                       mode="single"
                       selected={field.value ?? undefined}
-                      onSelect={field.onChange}
+                      onSelect={(date) => field.onChange(date)}
                       disabled={(date) =>
                         date < new Date(new Date().setHours(0, 0, 0, 0))
                       }

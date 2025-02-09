@@ -15,7 +15,11 @@ export const insertTaskSchema = createInsertSchema(tasks)
   .extend({
     title: z.string().min(1, "Title is required").max(100),
     priority: z.number().min(1).max(3),
-    dueDate: z.date().nullable(),
+    dueDate: z.union([z.string(), z.date(), z.null()]).transform((val) => {
+      if (!val) return null;
+      if (val instanceof Date) return val;
+      return new Date(val);
+    }),
   });
 
 export type InsertTask = z.infer<typeof insertTaskSchema>;
