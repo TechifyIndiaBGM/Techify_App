@@ -80,7 +80,10 @@ export default function SalahTracker() {
     <div className="space-y-4">
       <div className="space-y-4">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-          <h2 className="text-xl font-semibold">Salah Tracker</h2>
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+            <h2 className="text-xl font-semibold">Salah Tracker</h2>
+            <Button onClick={() => setShowStats(true)}>Stats/Report</Button>
+          </div>
           <div className="flex flex-wrap gap-3 text-sm">
             {statuses.map(({label, color}) => (
               <div key={label} className="flex items-center gap-2">

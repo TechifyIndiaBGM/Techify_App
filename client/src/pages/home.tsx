@@ -34,10 +34,7 @@ export default function Home() {
         <section>
           <div className="flex flex-col sm:flex-row sm:justify-between gap-2 items-start sm:items-center mb-4">
             <h2 className="text-xl font-bold">To Do List</h2>
-            <div className="flex gap-2 w-full sm:w-auto">
-              <Button className="flex-1 sm:flex-none" onClick={() => setShowNewTask(true)}>Create Task</Button>
-              <Button className="flex-1 sm:flex-none" onClick={() => setShowStats(true)}>Stats/Report</Button>
-            </div>
+            <Button className="w-full sm:w-auto" onClick={() => setShowNewTask(true)}>Create Task</Button>
           </div>
             <PriorityFilter
               selected={priorityFilter}
