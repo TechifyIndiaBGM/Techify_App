@@ -30,7 +30,7 @@ export default function SalahTracker() {
         </div>
       </div>
       <Tabs defaultValue="Fajr" className="w-full">
-        <TabsList className="grid grid-cols-5 w-full">
+        <TabsList className="flex justify-between w-full gap-2">
           {prayers.map((prayer) => (
             <TabsTrigger
               key={prayer}
