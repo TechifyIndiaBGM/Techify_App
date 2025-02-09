@@ -5,9 +5,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 interface TaskListProps {
   priorityFilter: number | null;
+  completionFilter: 'all' | 'active' | 'completed';
 }
 
-export default function TaskList({ priorityFilter }: TaskListProps) {
+export default function TaskList({ priorityFilter, completionFilter }: TaskListProps) {
   const { data: tasks, isLoading } = useQuery<Task[]>({
     queryKey: ["/api/tasks"],
   });
@@ -22,9 +23,15 @@ export default function TaskList({ priorityFilter }: TaskListProps) {
     );
   }
 
-  const filteredTasks = tasks?.filter(
-    (task) => !priorityFilter || task.priority === priorityFilter
-  );
+  const filteredTasks = tasks?.filter((task) => {
+    const matchesPriority = !priorityFilter || task.priority === priorityFilter;
+    const matchesCompletion = 
+      completionFilter === 'all' ? true :
+      completionFilter === 'completed' ? task.completed :
+      !task.completed;
+
+    return matchesPriority && matchesCompletion;
+  });
 
   if (!filteredTasks?.length) {
     return (

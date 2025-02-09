@@ -15,6 +15,7 @@ import { Plus } from "lucide-react";
 
 export default function Home() {
   const [priorityFilter, setPriorityFilter] = useState<number | null>(null);
+  const [completionFilter, setCompletionFilter] = useState<'all' | 'active' | 'completed'>('all');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   return (
@@ -24,8 +25,13 @@ export default function Home() {
           <PriorityFilter
             selected={priorityFilter}
             onChange={setPriorityFilter}
+            completionFilter={completionFilter}
+            onCompletionChange={setCompletionFilter}
           />
-          <TaskList priorityFilter={priorityFilter} />
+          <TaskList 
+            priorityFilter={priorityFilter}
+            completionFilter={completionFilter}
+          />
         </div>
 
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
