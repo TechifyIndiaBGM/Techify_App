@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -18,43 +18,24 @@ const statuses = [
 
 export default function SalahTracker() {
   const [selectedPrayer, setSelectedPrayer] = useState("");
-  const [prayerStatus, setPrayerStatus] = useState<Record<string, {color: string, date: string}>>({});
-  
-  // Reset prayers at midnight
-  useEffect(() => {
-    const today = new Date().toDateString();
-    const checkDate = () => {
-      const currentDate = new Date().toDateString();
-      if (currentDate !== today) {
-        setPrayerStatus({});
-      }
-    };
-    
-    const interval = setInterval(checkDate, 60000); // Check every minute
-    return () => clearInterval(interval);
-  }, []);
+  const [prayerStatus, setPrayerStatus] = useState<Record<string, string>>({});
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold">Salah Tracker - {new Date().toLocaleDateString()}</h2>
+      <h2 className="text-xl font-semibold">Salah Tracker</h2>
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         {prayers.map((prayer) => (
           <Button
             key={prayer}
             variant="outline"
-            className="w-full h-20 flex flex-col items-center justify-center gap-1"
+            className="w-full"
             style={{
               backgroundColor: prayerStatus[prayer] || "transparent",
-              color: prayerStatus[prayer] === "yellow" ? "black" : "white",
+              color: prayerStatus[prayer] ? "white" : "inherit",
             }}
             onClick={() => setSelectedPrayer(prayer)}
           >
-            <span>{prayer}</span>
-            {prayerStatus[prayer] && (
-              <span className="text-xs">
-                {statuses.find(s => s.color === prayerStatus[prayer].color)?.label}
-              </span>
-            )}
+            {prayer}
           </Button>
         ))}
       </div>
@@ -65,18 +46,15 @@ export default function SalahTracker() {
             <DialogTitle>{selectedPrayer} Status</DialogTitle>
           </DialogHeader>
           <div className="grid grid-cols-2 gap-4">
-            {statuses.map(({ label, color, textColor }) => (
+            {statuses.map(({ label, color }) => (
               <Button
                 key={label}
-                className="w-full h-14"
-                style={{ backgroundColor: color, color: textColor }}
+                className="w-full"
+                style={{ backgroundColor: color }}
                 onClick={() => {
                   setPrayerStatus((prev) => ({
                     ...prev,
-                    [selectedPrayer]: {
-                      color,
-                      date: new Date().toDateString()
-                    }
+                    [selectedPrayer]: color,
                   }));
                   setSelectedPrayer("");
                 }}
