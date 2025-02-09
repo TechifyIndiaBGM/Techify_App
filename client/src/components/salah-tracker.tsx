@@ -18,7 +18,17 @@ export default function SalahTracker() {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold">Salah Tracker</h2>
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-semibold">Salah Tracker</h2>
+        <div className="flex gap-3 text-sm">
+          {statuses.map(({label, color}) => (
+            <div key={label} className="flex items-center gap-2">
+              <div className="w-3 h-3" style={{ backgroundColor: color }}></div>
+              <span>{label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
       <Tabs defaultValue="Fajr" className="w-full">
         <TabsList className="grid grid-cols-5 w-full">
           {prayers.map((prayer) => (
