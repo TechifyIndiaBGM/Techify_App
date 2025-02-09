@@ -19,6 +19,9 @@ export default function Home() {
   const [completionFilter, setCompletionFilter] = useState<'all' | 'active' | 'completed'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [showNewTask, setShowNewTask] = useState(false); // Added state for Create Task
+  const [showStats, setShowStats] = useState(false);     // Added state for Stats/Report
+
 
   return (
     <div className="p-4 md:p-8">
@@ -29,22 +32,19 @@ export default function Home() {
           </div>
         </section>
         <section>
-          <h2 className="text-xl font-bold mb-4">To Do List</h2>
-          <div className="space-y-4">
-            <input
-              type="text"
-              placeholder="Search tasks..."
-              className="w-full p-2 rounded border"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+          <div className="flex flex-col sm:flex-row sm:justify-between gap-2 items-start sm:items-center mb-4">
+            <h2 className="text-xl font-bold">To Do List</h2>
+            <div className="flex gap-2 w-full sm:w-auto">
+              <Button className="flex-1 sm:flex-none" onClick={() => setShowNewTask(true)}>Create Task</Button>
+              <Button className="flex-1 sm:flex-none" onClick={() => setShowStats(true)}>Stats/Report</Button>
+            </div>
+          </div>
             <PriorityFilter
               selected={priorityFilter}
               onChange={setPriorityFilter}
               completionFilter={completionFilter}
               onCompletionChange={setCompletionFilter}
             />
-          </div>
           <TaskList 
             priorityFilter={priorityFilter}
             completionFilter={completionFilter}
@@ -54,10 +54,10 @@ export default function Home() {
 
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="fixed bottom-6 right-6 shadow-lg" size="lg">
+            {/*<Button className="fixed bottom-6 right-6 shadow-lg" size="lg">
               <Plus className="h-5 w-5 mr-2" />
               Create Task
-            </Button>
+            </Button>*/}
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
