@@ -3,6 +3,7 @@ import TaskForm from "@/components/task-form";
 import TaskList from "@/components/task-list";
 import PriorityFilter from "@/components/priority-filter";
 import { useState } from "react";
+import SalahTracker from "@/components/salah-tracker";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -22,7 +23,10 @@ export default function Home() {
   return (
     <div className="p-4 md:p-8">
       <div className="max-w-4xl mx-auto space-y-6">
-        <div className="space-y-4">
+        <div className="space-y-8">
+          <div className="space-y-4">
+            <SalahTracker />
+          </div>
           <div className="space-y-4">
             <input
               type="text"
