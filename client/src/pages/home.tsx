@@ -24,7 +24,6 @@ export default function Home() {
     <div className="p-4 md:p-8">
       <div className="max-w-4xl mx-auto space-y-6">
         <section>
-          <h2 className="text-xl font-bold mb-4">Salah Tracker</h2>
           <div className="space-y-4">
             <SalahTracker />
           </div>
