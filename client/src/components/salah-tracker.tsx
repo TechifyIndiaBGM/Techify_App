@@ -31,7 +31,7 @@ export default function SalahTracker() {
             className="w-full"
             style={{
               backgroundColor: prayerStatus[prayer] || "transparent",
-              color: prayerStatus[prayer] ? "white" : "inherit",
+              color: prayerStatus[prayer] === "yellow" ? "black" : "white",
             }}
             onClick={() => setSelectedPrayer(prayer)}
           >
