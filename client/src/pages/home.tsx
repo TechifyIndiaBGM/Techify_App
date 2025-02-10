@@ -32,9 +32,26 @@ export default function Home() {
           </div>
         </section>
         <section>
-          <div className="flex flex-col sm:flex-row sm:justify-between gap-2 items-start sm:items-center mb-4">
+          <div className="mb-4">
             <h2 className="text-2xl font-bold border-b-2 pb-2">To Do List</h2>
-            <Button size="sm" className="w-full sm:w-auto" onClick={() => setIsDialogOpen(true)}>Create Task</Button>
+          </div>
+
+          <div className="fixed bottom-6 right-6 flex flex-col gap-2 sm:flex-row">
+            <Button 
+              size="sm" 
+              variant="outline"
+              className="shadow-lg" 
+              onClick={() => setShowStats(true)}
+            >
+              Stats/Report
+            </Button>
+            <Button 
+              size="sm" 
+              className="shadow-lg" 
+              onClick={() => setIsDialogOpen(true)}
+            >
+              Create Task
+            </Button>
           </div>
             <PriorityFilter
               selected={priorityFilter}
