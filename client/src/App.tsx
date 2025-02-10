@@ -18,12 +18,21 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen bg-background">
-        <Navbar />
+      <div className="min-h-screen bg-background relative">
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-10 pointer-events-none" 
+          style={{ 
+            backgroundImage: "url('https://i.ibb.co/k5QLwPH/islamic-pattern.png')",
+            backgroundRepeat: 'repeat'
+          }} 
+        />
+        <div className="relative z-10">
+          <Navbar />
         <main>
           <Router />
         </main>
         <Toaster />
+        </div>
       </div>
     </QueryClientProvider>
   );
