@@ -91,28 +91,6 @@ export default function SalahTracker() {
                   day: 'numeric'
                 })}
               </p>
-              <div className="mt-4 grid grid-cols-5 gap-4">
-                <div className="text-center p-2 rounded-lg bg-primary/5">
-                  <div className="font-semibold">Fajr</div>
-                  <div className="text-sm text-muted-foreground">5:15 AM</div>
-                </div>
-                <div className="text-center p-2 rounded-lg bg-primary/5">
-                  <div className="font-semibold">Dhuhr</div>
-                  <div className="text-sm text-muted-foreground">12:30 PM</div>
-                </div>
-                <div className="text-center p-2 rounded-lg bg-primary/5">
-                  <div className="font-semibold">Asr</div>
-                  <div className="text-sm text-muted-foreground">3:45 PM</div>
-                </div>
-                <div className="text-center p-2 rounded-lg bg-primary/5">
-                  <div className="font-semibold">Maghrib</div>
-                  <div className="text-sm text-muted-foreground">6:45 PM</div>
-                </div>
-                <div className="text-center p-2 rounded-lg bg-primary/5">
-                  <div className="font-semibold">Isha</div>
-                  <div className="text-sm text-muted-foreground">8:15 PM</div>
-                </div>
-              </div>
             </div>
             <Button size="sm" onClick={() => setShowStats(true)}>Stats/Report</Button>
           </div>
@@ -127,24 +105,27 @@ export default function SalahTracker() {
         </div>
       </div>
       
-      <div className="grid grid-cols-5 gap-2">
-        {prayers.map((prayer) => (
-          <Button
-            key={prayer}
-            className="w-full transition-all duration-200 hover:scale-105"
-            style={{
-              backgroundColor: prayerStatus[prayer] || "transparent",
-              color: prayerStatus[prayer] === "yellow" ? "black" : 
-                    prayerStatus[prayer] ? "white" : "inherit",
-              fontWeight: "600",
-              border: !prayerStatus[prayer] ? "1px solid #ccc" : "none"
-            }}
-            onClick={() => setSelectedPrayer(prayer)}
-          >
-            {prayer}
-          </Button>
-        ))}
-      </div>
+      <Tabs defaultValue="Fajr" className="w-full">
+        <TabsList className="flex flex-wrap justify-between w-full gap-2 divide-x">
+          {prayers.map((prayer) => (
+            <TabsTrigger
+              key={prayer}
+              value={prayer}
+              className="transition-all duration-200 hover:scale-105 data-[state=active]:scale-110"
+              style={{
+                backgroundColor: prayerStatus[prayer] || "transparent",
+                color: prayerStatus[prayer] === "yellow" ? "black" : 
+                      prayerStatus[prayer] ? "white" : "black",
+                fontWeight: "600",
+                fontSize: "1rem"
+              }}
+              onClick={() => setSelectedPrayer(prayer)}
+            >
+              {prayer}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+      </Tabs>
 
       <Dialog open={!!selectedPrayer} onOpenChange={() => setSelectedPrayer("")}>
         <DialogContent>
