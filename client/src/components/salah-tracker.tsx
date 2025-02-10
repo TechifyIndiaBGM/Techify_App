@@ -4,8 +4,14 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Calendar } from "@/components/ui/calendar";
+const HijriDate = require('hijri-date');
 
 const prayers = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
+
+const getHijriDate = (date: Date = new Date()) => {
+  const hijri = new HijriDate(date);
+  return hijri.toString();
+};
 const statuses = [
   { label: "Not Prayed", color: "black" },
   { label: "Late", color: "red" },
@@ -79,12 +85,7 @@ export default function SalahTracker() {
             <div>
               <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Salah Tracker</h2>
               <p className="text-sm text-muted-foreground mt-1">
-                {new Date().toLocaleDateString('en-US', { 
-                  weekday: 'long',
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric'
-                })}
+                {getHijriDate()}
               </p>
             </div>
           </div>
