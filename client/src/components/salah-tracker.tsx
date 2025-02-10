@@ -132,33 +132,35 @@ export default function SalahTracker() {
           <DialogHeader>
             <DialogTitle>{selectedPrayer} Status</DialogTitle>
           </DialogHeader>
-          <Calendar
-            mode="single"
-            selected={selectedDate}
-            onSelect={setSelectedDate}
-            className="mb-4"
-          />
-          <div className="grid grid-cols-2 gap-4">
-            {statuses.map(({ label, color }) => (
-              <Button
-                key={label}
-                className="w-full"
-                style={{ 
-                  backgroundColor: color,
-                  color: color === "yellow" ? "black" : "white",
-                  fontWeight: "500"
-                }}
-                onClick={() => {
-                  setPrayerStatus((prev) => ({
-                    ...prev,
-                    [selectedPrayer]: color,
-                  }));
-                  setSelectedPrayer("");
-                }}
-              >
-                {label}
-              </Button>
-            ))}
+          <div className="flex gap-6">
+            <Calendar
+              mode="single"
+              selected={selectedDate}
+              onSelect={setSelectedDate}
+              className="mb-4"
+            />
+            <div className="space-y-3">
+              {statuses.map(({ label, color }) => (
+                <Button
+                  key={label}
+                  className="w-full"
+                  style={{ 
+                    backgroundColor: color,
+                    color: color === "yellow" ? "black" : "white",
+                    fontWeight: "500"
+                  }}
+                  onClick={() => {
+                    setPrayerStatus((prev) => ({
+                      ...prev,
+                      [selectedPrayer]: color,
+                    }));
+                    setSelectedPrayer("");
+                  }}
+                >
+                  {label}
+                </Button>
+              ))}
+            </div>
           </div>
         </DialogContent>
       </Dialog>
