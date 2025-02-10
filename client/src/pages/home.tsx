@@ -23,12 +23,9 @@ export default function Home() {
   const [showStats, setShowStats] = useState(false);     // Added state for Stats/Report
 
 
-  import HadithSection from "@/components/hadith-section";
-
-return (
+  return (
     <div className="p-4 md:p-8">
       <div className="max-w-4xl mx-auto space-y-12">
-        <HadithSection />
         <section>
           <div className="space-y-4">
             <SalahTracker />
