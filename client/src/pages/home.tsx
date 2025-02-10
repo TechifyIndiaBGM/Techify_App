@@ -20,7 +20,39 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [showNewTask, setShowNewTask] = useState(false); // Added state for Create Task
-  const [showStats, setShowStats] = useState(false);     // Added state for Stats/Report
+  const [showStats, setShowStats] = useState(false);
+  const [statsPeriod, setStatsPeriod] = useState<'week' | 'month' | 'year' | 'all'>('week');
+  
+  const calculateStats = () => {
+    const now = new Date();
+    const periodStart = new Date();
+    
+    switch(statsPeriod) {
+      case 'week':
+        periodStart.setDate(now.getDate() - 7);
+        break;
+      case 'month':
+        periodStart.setMonth(now.getMonth() - 1);
+        break;
+      case 'year':
+        periodStart.setFullYear(now.getFullYear() - 1);
+        break;
+      case 'all':
+        break;
+    }
+    
+    // Mock stats for demonstration
+    return {
+      inJamaah: 75,
+      onTime: 15,
+      late: 5,
+      notPrayed: 5,
+      inJamaahCount: 15,
+      onTimeCount: 3,
+      lateCount: 1,
+      notPrayedCount: 1
+    };
+  };
 
 
   return (
@@ -37,14 +69,65 @@ export default function Home() {
           </div>
 
           <div className="fixed bottom-6 right-6 flex flex-col gap-2 sm:flex-row">
-            <Button 
-              size="sm" 
-              variant="outline"
-              className="shadow-lg" 
-              onClick={() => setShowStats(true)}
-            >
-              Stats/Report
-            </Button>
+            <Dialog open={showStats} onOpenChange={setShowStats}>
+              <Button 
+                size="sm" 
+                variant="outline"
+                className="shadow-lg" 
+                onClick={() => setShowStats(true)}
+              >
+                Stats/Report
+              </Button>
+              <DialogContent className="max-w-2xl">
+                <DialogHeader>
+                  <DialogTitle>Prayer Statistics</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-6">
+                  <div className="flex justify-center gap-2">
+                    <Button 
+                      variant={statsPeriod === 'week' ? 'default' : 'outline'}
+                      onClick={() => setStatsPeriod('week')}
+                    >
+                      Week
+                    </Button>
+                    <Button 
+                      variant={statsPeriod === 'month' ? 'default' : 'outline'}
+                      onClick={() => setStatsPeriod('month')}
+                    >
+                      Month
+                    </Button>
+                    <Button 
+                      variant={statsPeriod === 'year' ? 'default' : 'outline'}
+                      onClick={() => setStatsPeriod('year')}
+                    >
+                      Year
+                    </Button>
+                    <Button 
+                      variant={statsPeriod === 'all' ? 'default' : 'outline'}
+                      onClick={() => setStatsPeriod('all')}
+                    >
+                      All Time
+                    </Button>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    {Object.entries(calculateStats()).map(([key, value]) => {
+                      if (!key.includes('Count')) return null;
+                      const label = key.replace('Count', '').split(/(?=[A-Z])/).join(' ');
+                      const percentage = calculateStats()[key.replace('Count', '') as keyof ReturnType<typeof calculateStats>];
+                      return (
+                        <div key={key} className="p-4 border rounded-lg">
+                          <h3 className="font-semibold">{label}</h3>
+                          <div className="mt-2">
+                            <div className="text-2xl font-bold">{percentage}%</div>
+                            <div className="text-sm text-gray-500">{value} times</div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
             <Button 
               size="sm" 
               className="shadow-lg" 

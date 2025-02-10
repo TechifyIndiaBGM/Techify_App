@@ -92,7 +92,6 @@ export default function SalahTracker() {
                 })}
               </p>
             </div>
-            <Button size="sm" onClick={() => setShowStats(true)}>Stats/Report</Button>
           </div>
           <div className="flex flex-wrap gap-3 text-sm">
             {statuses.map(({label, color}) => (
