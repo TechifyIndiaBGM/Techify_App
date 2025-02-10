@@ -40,17 +40,27 @@ export default function Home() {
       case 'all':
         break;
     }
+
+    // Calculate total possible prayers (5 prayers per day)
+    const daysDiff = Math.ceil((now.getTime() - periodStart.getTime()) / (1000 * 60 * 60 * 24));
+    const totalPossiblePrayers = daysDiff * 5;
     
-    // Mock stats for demonstration
+    // For demonstration, showing some sample data
+    const completedPrayers = Math.floor(totalPossiblePrayers * 0.8); // 80% completion rate
+    const inJamaahCount = Math.floor(completedPrayers * 0.7);
+    const onTimeCount = Math.floor(completedPrayers * 0.2);
+    const lateCount = Math.floor(completedPrayers * 0.1);
+    const notPrayedCount = totalPossiblePrayers - (inJamaahCount + onTimeCount + lateCount);
+    
     return {
-      inJamaah: 75,
-      onTime: 15,
-      late: 5,
-      notPrayed: 5,
-      inJamaahCount: 15,
-      onTimeCount: 3,
-      lateCount: 1,
-      notPrayedCount: 1
+      inJamaah: Math.round((inJamaahCount / totalPossiblePrayers) * 100),
+      onTime: Math.round((onTimeCount / totalPossiblePrayers) * 100),
+      late: Math.round((lateCount / totalPossiblePrayers) * 100),
+      notPrayed: Math.round((notPrayedCount / totalPossiblePrayers) * 100),
+      inJamaahCount,
+      onTimeCount,
+      lateCount,
+      notPrayedCount
     };
   };
 

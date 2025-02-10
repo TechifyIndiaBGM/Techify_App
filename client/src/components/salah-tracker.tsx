@@ -35,21 +35,13 @@ export default function SalahTracker() {
         periodStart.setFullYear(now.getFullYear() - 1);
         break;
       case 'all':
-        // Don't filter by date
         break;
     }
+
+    // Calculate total possible prayers (5 prayers per day)
+    const daysDiff = Math.ceil((now.getTime() - periodStart.getTime()) / (1000 * 60 * 60 * 24));
+    const totalPossiblePrayers = daysDiff * 5;
     
-    const filteredPrayers = statsPeriod === 'all' 
-      ? prayerStatus 
-      : Object.entries(prayerStatus).reduce((acc, [date, status]) => {
-          const prayerDate = new Date(date);
-          if (prayerDate >= periodStart && prayerDate <= now) {
-            acc[date] = status;
-          }
-          return acc;
-        }, {} as Record<string, string>);
-    
-    const totalPrayers = Object.values(filteredPrayers).length;
     const stats = {
       inJamaah: 0,
       onTime: 0,
@@ -63,12 +55,15 @@ export default function SalahTracker() {
       if (status === "red") stats.late++;
       if (status === "black") stats.notPrayed++;
     });
+
+    // Add missing prayers to notPrayed count
+    stats.notPrayed += totalPossiblePrayers - Object.values(prayerStatus).length;
     
     return {
-      inJamaah: totalPrayers ? Math.round((stats.inJamaah / totalPrayers) * 100) : 0,
-      onTime: totalPrayers ? Math.round((stats.onTime / totalPrayers) * 100) : 0,
-      late: totalPrayers ? Math.round((stats.late / totalPrayers) * 100) : 0,
-      notPrayed: totalPrayers ? Math.round((stats.notPrayed / totalPrayers) * 100) : 0,
+      inJamaah: Math.round((stats.inJamaah / totalPossiblePrayers) * 100),
+      onTime: Math.round((stats.onTime / totalPossiblePrayers) * 100),
+      late: Math.round((stats.late / totalPossiblePrayers) * 100),
+      notPrayed: Math.round((stats.notPrayed / totalPossiblePrayers) * 100),
       inJamaahCount: stats.inJamaah,
       onTimeCount: stats.onTime,
       lateCount: stats.late,
