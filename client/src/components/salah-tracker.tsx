@@ -119,21 +119,12 @@ export default function SalahTracker() {
                 fontWeight: "600",
                 fontSize: "1rem"
               }}
+              onClick={() => setSelectedPrayer(prayer)}
             >
               {prayer}
             </TabsTrigger>
           ))}
         </TabsList>
-        {prayers.map((prayer) => (
-          <TabsContent key={prayer} value={prayer} className="mt-4">
-            <Button
-              className="w-full"
-              onClick={() => setSelectedPrayer(prayer)}
-            >
-              How did you complete {prayer} today?
-            </Button>
-          </TabsContent>
-        ))}
       </Tabs>
 
       <Dialog open={!!selectedPrayer} onOpenChange={() => setSelectedPrayer("")}>
