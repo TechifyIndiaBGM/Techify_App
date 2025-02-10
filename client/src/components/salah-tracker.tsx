@@ -79,10 +79,23 @@ export default function SalahTracker() {
   return (
     <div className="space-y-4">
       <div className="space-y-4">
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 bg-gradient-to-r from-primary/10 to-secondary/10 p-4 rounded-lg">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-            <h2 className="text-2xl font-bold border-b-2 pb-2">Salah Tracker</h2>
-            <Button size="sm" onClick={() => setShowStats(true)}>Stats/Report</Button>
+            <div>
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Salah Tracker</h2>
+              <p className="text-sm text-muted-foreground">
+                {new Date().toLocaleDateString('en-US', { 
+                  weekday: 'long',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </p>
+            </div>
+            <Button size="sm" 
+              onClick={() => setShowStats(true)}
+              className="bg-primary/20 text-primary hover:bg-primary hover:text-primary-foreground">
+              Stats/Report
+            </Button>
           </div>
           <div className="flex flex-wrap gap-3 text-sm">
             {statuses.map(({label, color}) => (
