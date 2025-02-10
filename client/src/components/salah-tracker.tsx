@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import HijriDate from "hijri-dates";
+import { Calendar } from "@/components/ui/calendar";
 
 const prayers = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
 const statuses = [
@@ -79,25 +79,10 @@ export default function SalahTracker() {
   return (
     <div className="space-y-4">
       <div className="space-y-4">
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 bg-gradient-to-r from-primary/10 to-secondary/10 p-4 rounded-lg">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-            <div>
-              <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Salah Tracker</h2>
-              <p className="text-sm text-muted-foreground">
-                {new Date().toLocaleDateString('en-US', { 
-                  weekday: 'long',
-                  month: 'long',
-                  day: 'numeric'
-                })}
-                {' • '}
-                {new HijriDate().format('d MMMM yyyy', 'en')}
-              </p>
-            </div>
-            <Button size="sm" 
-              onClick={() => setShowStats(true)}
-              className="bg-primary/20 text-primary hover:bg-primary hover:text-primary-foreground">
-              Stats/Report
-            </Button>
+            <h2 className="text-2xl font-bold border-b-2 pb-2">Salah Tracker</h2>
+            <Button size="sm" onClick={() => setShowStats(true)}>Stats/Report</Button>
           </div>
           <div className="flex flex-wrap gap-3 text-sm">
             {statuses.map(({label, color}) => (
@@ -146,21 +131,12 @@ export default function SalahTracker() {
           <DialogHeader>
             <DialogTitle>{selectedPrayer} Status</DialogTitle>
           </DialogHeader>
-          <div className="mb-4 p-4 border rounded-lg">
-            <div className="text-center mb-2">
-              <div className="text-lg font-semibold">
-                {new HijriDate().format('d MMMM yyyy', 'en')}
-              </div>
-              <div className="text-sm text-muted-foreground">
-                {new Date().toLocaleDateString('en-US', { 
-                  weekday: 'long',
-                  month: 'long',
-                  day: 'numeric',
-                  year: 'numeric'
-                })}
-              </div>
-            </div>
-          </div>
+          <Calendar
+            mode="single"
+            selected={selectedDate}
+            onSelect={setSelectedDate}
+            className="mb-4"
+          />
           <div className="grid grid-cols-2 gap-4">
             {statuses.map(({ label, color }) => (
               <Button
