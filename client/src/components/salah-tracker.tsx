@@ -91,6 +91,28 @@ export default function SalahTracker() {
                   day: 'numeric'
                 })}
               </p>
+              <div className="mt-4 grid grid-cols-5 gap-4">
+                <div className="text-center p-2 rounded-lg bg-primary/5">
+                  <div className="font-semibold">Fajr</div>
+                  <div className="text-sm text-muted-foreground">5:15 AM</div>
+                </div>
+                <div className="text-center p-2 rounded-lg bg-primary/5">
+                  <div className="font-semibold">Dhuhr</div>
+                  <div className="text-sm text-muted-foreground">12:30 PM</div>
+                </div>
+                <div className="text-center p-2 rounded-lg bg-primary/5">
+                  <div className="font-semibold">Asr</div>
+                  <div className="text-sm text-muted-foreground">3:45 PM</div>
+                </div>
+                <div className="text-center p-2 rounded-lg bg-primary/5">
+                  <div className="font-semibold">Maghrib</div>
+                  <div className="text-sm text-muted-foreground">6:45 PM</div>
+                </div>
+                <div className="text-center p-2 rounded-lg bg-primary/5">
+                  <div className="font-semibold">Isha</div>
+                  <div className="text-sm text-muted-foreground">8:15 PM</div>
+                </div>
+              </div>
             </div>
             <Button size="sm" onClick={() => setShowStats(true)}>Stats/Report</Button>
           </div>
