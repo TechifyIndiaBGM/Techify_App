@@ -81,7 +81,17 @@ export default function SalahTracker() {
       <div className="space-y-4">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-            <h2 className="text-2xl font-bold border-b-2 pb-2">Salah Tracker</h2>
+            <div>
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Salah Tracker</h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                {new Date().toLocaleDateString('en-US', { 
+                  weekday: 'long',
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric'
+                })}
+              </p>
+            </div>
             <Button size="sm" onClick={() => setShowStats(true)}>Stats/Report</Button>
           </div>
           <div className="flex flex-wrap gap-3 text-sm">
