@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Calendar } from "@/components/ui/calendar";
+import HijriDate from "hijri-dates";
 
 const prayers = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
 const statuses = [
@@ -89,6 +89,8 @@ export default function SalahTracker() {
                   month: 'long',
                   day: 'numeric'
                 })}
+                {' • '}
+                {new HijriDate().format('d MMMM yyyy', 'en')}
               </p>
             </div>
             <Button size="sm" 
@@ -144,12 +146,21 @@ export default function SalahTracker() {
           <DialogHeader>
             <DialogTitle>{selectedPrayer} Status</DialogTitle>
           </DialogHeader>
-          <Calendar
-            mode="single"
-            selected={selectedDate}
-            onSelect={setSelectedDate}
-            className="mb-4"
-          />
+          <div className="mb-4 p-4 border rounded-lg">
+            <div className="text-center mb-2">
+              <div className="text-lg font-semibold">
+                {new HijriDate().format('d MMMM yyyy', 'en')}
+              </div>
+              <div className="text-sm text-muted-foreground">
+                {new Date().toLocaleDateString('en-US', { 
+                  weekday: 'long',
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric'
+                })}
+              </div>
+            </div>
+          </div>
           <div className="grid grid-cols-2 gap-4">
             {statuses.map(({ label, color }) => (
               <Button
