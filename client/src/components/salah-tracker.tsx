@@ -127,27 +127,24 @@ export default function SalahTracker() {
         </div>
       </div>
       
-      <Tabs defaultValue="Fajr" className="w-full">
-        <TabsList className="flex flex-wrap justify-between w-full gap-2 divide-x">
-          {prayers.map((prayer) => (
-            <TabsTrigger
-              key={prayer}
-              value={prayer}
-              className="transition-all duration-200 hover:scale-105 data-[state=active]:scale-110"
-              style={{
-                backgroundColor: prayerStatus[prayer] || "transparent",
-                color: prayerStatus[prayer] === "yellow" ? "black" : 
-                      prayerStatus[prayer] ? "white" : "black",
-                fontWeight: "600",
-                fontSize: "1rem"
-              }}
-              onClick={() => setSelectedPrayer(prayer)}
-            >
-              {prayer}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-      </Tabs>
+      <div className="grid grid-cols-5 gap-2">
+        {prayers.map((prayer) => (
+          <Button
+            key={prayer}
+            className="w-full transition-all duration-200 hover:scale-105"
+            style={{
+              backgroundColor: prayerStatus[prayer] || "transparent",
+              color: prayerStatus[prayer] === "yellow" ? "black" : 
+                    prayerStatus[prayer] ? "white" : "inherit",
+              fontWeight: "600",
+              border: !prayerStatus[prayer] ? "1px solid #ccc" : "none"
+            }}
+            onClick={() => setSelectedPrayer(prayer)}
+          >
+            {prayer}
+          </Button>
+        ))}
+      </div>
 
       <Dialog open={!!selectedPrayer} onOpenChange={() => setSelectedPrayer("")}>
         <DialogContent>
